@@ -115,6 +115,11 @@ ORDER BY depth ASC;
 
 select * from categories order by depth, id;
 
+--대분류만
+select id, name, p_id, depth
+    from categories
+    where p_id is null;
+
 --어떤 중분류의 모든 소분류 (p_id에 중분류)
 select id, name, p_id, depth 
     from categories 
@@ -125,6 +130,15 @@ select id, name, p_id, depth
     from categories 
     where p_id=15 and depth = 2;
 
+--어떤 분류의 모든 하위분류 (p_id, id 에 어떤 해당 분류)
+select id, name, p_id, depth 
+    from categories 
+    where p_id=7 and depth =(SELECT depth + 1 FROM categories WHERE id=7);
+
+select id, name, p_id, depth 
+    from categories 
+    where p_id=7;
+    
 --=========================================================================================================
 
 --대분류 최초 등록
@@ -143,6 +157,10 @@ INSERT INTO categories (name, p_id, depth)
             (SELECT depth + 1 FROM categories WHERE name = '메모리'));   --depth (대중소 1 2 3)
             
 select * from categories;
+select name from categories;
+
+--카테고리 관리페이지 등록메뉴에 보여줄것 대,중 분류만 셀렉 소분류 제외 셀렉 소분류에 소분류 등록은 안되기 때문
+select * from categories where depth not in '3';
 
 
 
