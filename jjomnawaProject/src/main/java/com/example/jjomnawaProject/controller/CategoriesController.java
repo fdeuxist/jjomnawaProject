@@ -107,6 +107,28 @@ public class CategoriesController {
 
     //대분류 서브분류 공통 사용 가능
     @GetMapping("/c/getCategories")
+    public ResponseEntity<Map<String, Object>> getCategories(@RequestParam Long parentId) {
+        logger.info("\nCategoriesController - /getCategories?parentId={}",parentId);
+        Map<String, Object> response = new HashMap<>();
+        List<Categories> categoriesList = null;
+        Long depth = null;
+
+        categoriesList = categoriesService.findSubCategoriesByParentId(parentId);
+        logger.info("\nCategoriesController - findSubCategoriesByParentId({})",parentId);
+
+        if(!categoriesList.isEmpty()){
+            depth = categoriesList.get(0).getDepth();
+        }
+        response.put("categoriesList", categoriesList);
+        logger.info("\nCategoriesController - categoriesList : {}",categoriesList , "depth : {} " ,depth);
+        response.put("depth",depth);
+        response.put("msg", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /*
+    //대분류 서브분류 공통 사용 가능
+    @GetMapping("/c/getCategories")
     public ResponseEntity<Map<String, Object>> getCategories(@RequestParam(required = false) Long parentId) {
         logger.info("\nCategoriesController - /getCategories?parentId={}",parentId);
         Map<String, Object> response = new HashMap<>();
@@ -129,4 +151,5 @@ public class CategoriesController {
         response.put("msg", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    */
 }

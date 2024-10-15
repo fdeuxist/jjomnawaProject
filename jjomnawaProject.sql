@@ -32,24 +32,24 @@ create table categories (
 
 
 -- 대 카테고리
-INSERT INTO categories (name, p_id, depth) VALUES ('컴퓨터부품', NULL, 1);   --카테고리명,부모id,대중소123
-INSERT INTO categories (name, p_id, depth) VALUES ('가전제품', NULL, 1);
+INSERT INTO categories (name, p_id, depth) VALUES ('컴퓨터부품', NULL, 0);   --카테고리명,부모id,대중소123
+INSERT INTO categories (name, p_id, depth) VALUES ('가전제품', NULL, 0);
 
 -- 중 카테고리
 INSERT INTO categories (name, p_id, depth) 
     VALUES ('CPU', 
             (SELECT id FROM categories WHERE name = '컴퓨터부품'), 
             (SELECT depth + 1 FROM categories WHERE name = '컴퓨터부품'));
-INSERT INTO categories (name, p_id, depth) VALUES ('스마트폰', (SELECT id FROM categories WHERE name = '전자제품'), 2);
-INSERT INTO categories (name, p_id, depth) VALUES ('TV', (SELECT id FROM categories WHERE name = '가전제품'), 2);
+INSERT INTO categories (name, p_id, depth) VALUES ('스마트폰', (SELECT id FROM categories WHERE name = '전자제품'), 1);
+INSERT INTO categories (name, p_id, depth) VALUES ('TV', (SELECT id FROM categories WHERE name = '가전제품'), 1);
 
 -- 소 카테고리
-INSERT INTO categories (name, p_id, depth) VALUES ('게이밍 노트북', (SELECT id FROM categories WHERE name = '노트북'), 3);
-INSERT INTO categories (name, p_id, depth) VALUES ('비즈니스 노트북', (SELECT id FROM categories WHERE name = '노트북'), 3);
-INSERT INTO categories (name, p_id, depth) VALUES ('안드로이드 스마트폰', (SELECT id FROM categories WHERE name = '스마트폰'), 3);
-INSERT INTO categories (name, p_id, depth) VALUES ('아이폰', (SELECT id FROM categories WHERE name = '스마트폰'), 3);
-INSERT INTO categories (name, p_id, depth) VALUES ('OLED TV', (SELECT id FROM categories WHERE name = 'TV'), 3);
-INSERT INTO categories (name, p_id, depth) VALUES ('LCD TV', (SELECT id FROM categories WHERE name = 'TV'), 3);
+INSERT INTO categories (name, p_id, depth) VALUES ('게이밍 노트북', (SELECT id FROM categories WHERE name = '노트북'), 2);
+INSERT INTO categories (name, p_id, depth) VALUES ('비즈니스 노트북', (SELECT id FROM categories WHERE name = '노트북'), 2);
+INSERT INTO categories (name, p_id, depth) VALUES ('안드로이드 스마트폰', (SELECT id FROM categories WHERE name = '스마트폰'), 2);
+INSERT INTO categories (name, p_id, depth) VALUES ('아이폰', (SELECT id FROM categories WHERE name = '스마트폰'), 2);
+INSERT INTO categories (name, p_id, depth) VALUES ('OLED TV', (SELECT id FROM categories WHERE name = 'TV'), 2);
+INSERT INTO categories (name, p_id, depth) VALUES ('LCD TV', (SELECT id FROM categories WHERE name = 'TV'), 2);
 
 
 select * from categories;
@@ -64,14 +64,14 @@ select d.name, j.name, s.name, d.id, j.id, s.id, (d.id || '_' || j.id || '_' || 
 select d.name, j.name, d.id, j.id, (d.id || '_' || j.id) AS 카테고리_id
     from categories d 
     join categories j on d.id = j.p_id
-    where d.depth = 1;
+    where d.depth = 0;
     
 --중분류 밑 소분류
 select j.name, s.name, j.id, s.id, (j.id || '_' || s.id) AS 카테고리_id
     from categories d 
     join categories j on d.id = j.p_id
     join categories s on j.id = s.p_id
-    where j.depth = 2;
+    where j.depth = 1;
 
 select * from categories;
 commit;
@@ -91,7 +91,7 @@ INSERT INTO categories (name, p_id, depth) VALUES (
 
 --새 대분류 입력
 INSERT INTO categories (name, p_id, depth) VALUES (
-    '주방용품', null, 1);
+    '주방용품', null, 0);
 
     
 commit;
@@ -123,7 +123,7 @@ select id, name, p_id, depth
 --어떤 중분류의 모든 소분류 (p_id에 중분류)
 select id, name, p_id, depth 
     from categories 
-    where p_id=17 and depth = 3;
+    where p_id=17 and depth = 2;
 
 --어떤 대분류의 모든 중분류 (p_id에 대분류)
 select id, name, p_id, depth 
@@ -142,7 +142,7 @@ select id, name, p_id, depth
 --=========================================================================================================
 
 --대분류 최초 등록
-INSERT INTO categories (name, p_id, depth) VALUES ('컴퓨터부품', NULL, 1);   --카테고리명,부모id,대중소123
+INSERT INTO categories (name, p_id, depth) VALUES ('컴퓨터부품', NULL, 0);   --카테고리명,부모id,대중소123
 
 --하위(중,소 혼용가능)분류 등록
 INSERT INTO categories (name, p_id, depth) 
@@ -156,11 +156,11 @@ INSERT INTO categories (name, p_id, depth)
             (SELECT id FROM categories WHERE name = '메모리'),   --부모id
             (SELECT depth + 1 FROM categories WHERE name = '메모리'));   --depth (대중소 1 2 3)
             
-select * from categories;
+select id, name, p_id, depth from categories;
 select name from categories;
 
 --카테고리 관리페이지 등록메뉴에 보여줄것 대,중 분류만 셀렉 소분류 제외 셀렉 소분류에 소분류 등록은 안되기 때문
-select * from categories where depth not in '3';
+select * from categories where depth not in '2';
 
 
 

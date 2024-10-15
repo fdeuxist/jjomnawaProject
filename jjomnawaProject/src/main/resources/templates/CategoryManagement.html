@@ -16,31 +16,32 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="bcDt" data-id="" >MainCategory</a>
-                <div class="dropdown-menu" id="bcDa">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="MainCateText" data-id="" data-depth="0">MainCategory</a>
+                <div class="dropdown-menu" id="MainCateDropItem">
                     <a class="dropdown-item" href="#" data-id="">Subcategory 1</a>
                     <a class="dropdown-item" href="#" data-id="">Subcategory 2</a>
                 </div>
             </li>
             <li class="breadcrumb-item dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="bcJt" data-id="" >MidCategory</a>
-                <div class="dropdown-menu" id="bcJa">
-                    <a class="dropdown-item" href="#">Subcategory 1</a>
-                    <a class="dropdown-item" href="#">Subcategory 2</a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="MidCateText" data-id="" data-depth="1">MidCategory</a>
+                <div class="dropdown-menu" id="MidCateDropItem">
+                    <a class="dropdown-item" href="#" data-id="">Subcategory 1</a>
+                    <a class="dropdown-item" href="#" data-id="">Subcategory 2</a>
                 </div>
             </li>
             <li class="breadcrumb-item dropdown" aria-current="page">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="bcSt" data-id="" >SubCategory</a>
-                <div class="dropdown-menu" id="bcSa">
-                    <a class="dropdown-item" href="#">Data 11</a>
-                    <a class="dropdown-item" href="#">Data 2</a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="SubCateText" data-id="" data-depth="2">SubCategory</a>
+                <div class="dropdown-menu" id="SubCateDropItem">
+                    <a class="dropdown-item" href="#" data-id="">Data 11</a>
+                    <a class="dropdown-item" href="#" data-id="">Data 2</a>
                 </div>
             </li>
         </ol>
     </nav>
-
+<!--
     <h1>Welcome to the Data Page</h1>
     <p>This is where you can find various data-related resources.</p>
+-->
 </div>
 
 
@@ -76,76 +77,73 @@
 
 <script>
     $(document).ready(function() {
-    var mainCategory = $('#bcDt');  //$('#bcDt').text('');
-    var midCategory = $('#bcJt');
-    var subCategory = $('#bcSt');
-
-    var mainCategoryDropdown = $('#bcDa');
     /*
-    <div class="dropdown-menu" id="bcDa">
-        <a class="dropdown-item" href="#">Subcategory 1</a>
-        <a class="dropdown-item" href="#">Subcategory 2</a>
-    </div>
+    const mainCateText = $('#MainCateText');  //$('#bcDt').text('');
+    const midCateText = $('#MidCateText');
+    const subCateText = $('#SubCateText');
+    //<div class="dropdown-menu" id="bcDa">
+    //    <a class="dropdown-item" href="#">Subcategory 1</a>
+    //    <a class="dropdown-item" href="#">Subcategory 2</a>
+    //</div>
+    const mainCateItem = $('#MainCateDropItem');
+    const midCateItem = $('#MidCateDropItem');
+    const subCateItem = $('#SubCateDropItem');
     */
-    var midCategoryDropdown = $('#bcJa');
-    var subCategoryDropdown = $('#bcSa');
+    const dropdownToggleText = $('.dropdown-toggle');   //3개
+    const dropdownMenuItem = $('.dropdown-menu');   //3개
 
         //대분류 가져와서 동적으로 넣어주기
-        $.ajax({
-            url: '/c/getCategories',
-            method: 'GET',
-            success: function(response) {
-                console.log(response);
-                drawMainCategory(response.categoriesList);
-            },
-            error: function(xhr, status, error) {
-                alert('Error: ' + error);
-            }
-        });
+        getCategories(0);   //p_id 0 = 대분류
 
-        function drawMainCategory(list){
-            //var $("#bcDa").HTML();
-            //<a class="dropdown-item" href="#">Subcategory 1</a>
-            let bcDaStr = '';
-            for(let i=0;i<list.length;i++){
-                bcDaStr += `<a class="dropdown-item" href="#" data-id="`+ list[i].id + `">` + list[i].name + `</a>`;
-            }
-            mainCategoryDropdown.html(bcDaStr);
-            setDropDownItemOnClickEvent();
-        }
-
-        function setDropDownItemOnClickEvent(){
-            $('.dropdown-item').on('click', function(event) {
-                event.preventDefault(); // 기본 링크 클릭 방지
-
-                var selectedCategory = $(this).text(); // 클릭된 항목의 텍스트
-                var selectedId = $(this).attr('data-id'); // 클릭된 항목의 data-id
-                console.log("Selected Category: " + selectedCategory + "  Selected Id : " + selectedId ); // 콘솔에 출력
-
-                // 추가적인 작업을 여기에 수행할 수 있습니다.
-                // 예: 다른 페이지로 이동하거나 AJAX 요청 보내기
-                $(this).parent().siblings('.dropdown-toggle').text(selectedCategory).attr('data-id', selectedId);
-                //이것의 부모의 형제의 클래스가 dropdown-toggle인것의 글자와 속성변경
+        function getCategories(p_id){
+            $.ajax({
+                url: '/c/getCategories', // 기본 URL
+                method: 'GET',
+                data: { parentId: p_id },
+                success: function(response) {
+                    console.log(response);
+                    drawCateItem(response.categoriesList, response.depth);
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + error);
+                }
             });
         }
-        
 
-        $('#parentName').change(function() {
-            var selectedValue = $(this).val();
-            console.log("Selected Parent Category: " + selectedValue);
-        });
-
-        $.ajax({
-            url: '/test',
-            method: 'GET',
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                alert('Error: ' + error);
+        function drawCateItem(list, depth){
+            let tagStr = '';
+            for(let i=0;i<list.length;i++){
+                tagStr += `<a class="dropdown-item" href="#" data-id="`+ list[i].id + `" data-depth="`+ list[i].depth +`">` + list[i].name + `</a>`;
             }
-        });
+            //depth가 0이나 1이면 1이나 2를 초기화하는 로직 필요 
+            //0이면 1,2      1이면 2
+            console.log("drawCateItem() depth : ", depth);
+            if(depth!=null){        //소분류 값이 바뀌면 depth가 null이 찍힘. 소분류는 부모가 아니기때문
+                for(let i=depth;i<=2;i++){
+                    $(dropdownMenuItem[i]).html("");
+                    $(dropdownToggleText[i]).text("select cate "+i);
+                }
+            }
 
+            $(dropdownMenuItem[depth]).html(tagStr);
+            setDropDownItemOnClickEvent();
+        }
+        //================================================================================
+        function setDropDownItemOnClickEvent(){
+            $('.dropdown-item').on('click', function(event) {
+                event.preventDefault();
+
+                var selectedCategory = $(this).text();
+                var selectedId = $(this).attr('data-id');
+                console.log("Selected Category: " + selectedCategory + "  Selected Id : " + selectedId );
+
+                $(this).parent().siblings('.dropdown-toggle').text(selectedCategory).attr('data-id', selectedId);
+                //$('.dropdown-item')의 부모의 형제의 클래스가 dropdown-toggle인것의 글자와 속성변경
+                getCategories(selectedId);
+            });
+        }
+    //================================================================================
+    // Add Category Btn
         $('form').on('submit', function(event) {
             event.preventDefault(); // 기본 제출 방지
 
@@ -164,6 +162,7 @@
                 }
             });
         });
+    //================================================================================    
     });
 </script>
 
