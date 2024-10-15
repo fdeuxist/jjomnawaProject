@@ -38,10 +38,10 @@
             </li>
         </ol>
     </nav>
-<!--
-    <h1>Welcome to the Data Page</h1>
-    <p>This is where you can find various data-related resources.</p>
--->
+    <!--
+        <h1>Welcome to the Data Page</h1>
+        <p>This is where you can find various data-related resources.</p>
+    -->
 </div>
 
 
@@ -62,7 +62,7 @@
         <label for="parentName">Select Parent Category</label>
         <select name="parentName" id="parentName" required class="form-control mb-3">
             <option value="" disabled selected>Select Parent Category</option>
-                <option value="">* This is parents *</option>
+            <option value="">* This is parents *</option>
             <th:block th:each="category : ${categoriesList}">
                 <option th:value="${category.name}" th:text="${category.name}"></option>
             </th:block>
@@ -77,20 +77,20 @@
 
 <script>
     $(document).ready(function() {
-    /*
-    const mainCateText = $('#MainCateText');  //$('#bcDt').text('');
-    const midCateText = $('#MidCateText');
-    const subCateText = $('#SubCateText');
-    //<div class="dropdown-menu" id="bcDa">
-    //    <a class="dropdown-item" href="#">Subcategory 1</a>
-    //    <a class="dropdown-item" href="#">Subcategory 2</a>
-    //</div>
-    const mainCateItem = $('#MainCateDropItem');
-    const midCateItem = $('#MidCateDropItem');
-    const subCateItem = $('#SubCateDropItem');
-    */
-    const dropdownToggleText = $('.dropdown-toggle');   //3개
-    const dropdownMenuItem = $('.dropdown-menu');   //3개
+        /*
+        const mainCateText = $('#MainCateText');  //$('#bcDt').text('');
+        const midCateText = $('#MidCateText');
+        const subCateText = $('#SubCateText');
+        //<div class="dropdown-menu" id="bcDa">
+        //    <a class="dropdown-item" href="#">Subcategory 1</a>
+        //    <a class="dropdown-item" href="#">Subcategory 2</a>
+        //</div>
+        const mainCateItem = $('#MainCateDropItem');
+        const midCateItem = $('#MidCateDropItem');
+        const subCateItem = $('#SubCateDropItem');
+        */
+        const dropdownToggleText = $('.dropdown-toggle');   //3개
+        const dropdownMenuItem = $('.dropdown-menu');   //3개
 
         //대분류 가져와서 동적으로 넣어주기
         getCategories(0);   //p_id 0 = 대분류
@@ -142,8 +142,8 @@
                 getCategories(selectedId);
             });
         }
-    //================================================================================
-    // Add Category Btn
+        //================================================================================
+        // Add Category Btn
         $('form').on('submit', function(event) {
             event.preventDefault(); // 기본 제출 방지
 
@@ -162,7 +162,7 @@
                 }
             });
         });
-    //================================================================================    
+        //================================================================================
     });
 </script>
 
