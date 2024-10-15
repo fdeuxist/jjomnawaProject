@@ -13,39 +13,6 @@
 <!-- 헤더 포함 -->
 <div th:replace="fragments/header :: header"></div>
 <div class="container mt-5">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="MainCateText" data-id="" data-depth="0">MainCategory</a>
-                <div class="dropdown-menu" id="MainCateDropItem">
-                    <a class="dropdown-item" href="#" data-id="">MainCategory 1</a>
-                    <a class="dropdown-item" href="#" data-id="">MainCategory 2</a>
-                </div>
-            </li>
-            <li class="breadcrumb-item dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="MidCateText" data-id="" data-depth="1">MidCategory</a>
-                <div class="dropdown-menu" id="MidCateDropItem">
-                    <a class="dropdown-item" href="#" data-id="">MidCategory 1</a>
-                    <a class="dropdown-item" href="#" data-id="">MidCategory 2</a>
-                </div>
-            </li>
-            <li class="breadcrumb-item dropdown" aria-current="page">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="SubCateText" data-id="" data-depth="2">SubCategory</a>
-                <div class="dropdown-menu" id="SubCateDropItem">
-                    <a class="dropdown-item" href="#" data-id="">SubCategory 1</a>
-                    <a class="dropdown-item" href="#" data-id="">SubCategory 2</a>
-                </div>
-            </li>
-        </ol>
-    </nav>
-    <!--
-        <h1>Welcome to the Data Page</h1>
-        <p>This is where you can find various data-related resources.</p>
-    -->
-</div>
-
-
-<div class="container mt-5">
     <!--
     <h2>Add Main Category</h2>
     <form action="#" th:action="@{/c/addMain}" method="post">
@@ -103,91 +70,9 @@
 <!-- 푸터 포함 -->
 <div th:replace="fragments/footer :: footer"></div>
 
+<!-- ↓ body breadcrum category c_ud 관련 -->
 <script>
     $(document).ready(function() {
-        /*
-        const mainCateText = $('#MainCateText');  //$('#bcDt').text('');
-        const midCateText = $('#MidCateText');
-        const subCateText = $('#SubCateText');
-        //<div class="dropdown-menu" id="bcDa">
-        //    <a class="dropdown-item" href="#">Subcategory 1</a>
-        //    <a class="dropdown-item" href="#">Subcategory 2</a>
-        //</div>
-        const mainCateItem = $('#MainCateDropItem');
-        const midCateItem = $('#MidCateDropItem');
-        const subCateItem = $('#SubCateDropItem');
-        */
-        const dropdownToggleText = $('.dropdown-toggle');   //3개
-        const dropdownMenuItem = $('.dropdown-menu');   //3개
-
-        //대분류 가져와서 동적으로 넣어주기
-        getCategories(0);   //p_id 0 = 대분류
-
-        function getCategories(p_id){
-            $.ajax({
-                url: '/c/getCategories', // 기본 URL
-                method: 'GET',
-                data: { parentId: p_id },
-                success: function(response) {
-                    console.log(response);
-                    drawCateItem(response.categoriesList, response.depth);
-                },
-                error: function(xhr, status, error) {
-                    alert('Error: ' + error);
-                }
-            });
-        }
-
-        function drawCateItem(list, depth){
-            let tagStr = '';
-            for(let i=0;i<list.length;i++){
-                tagStr += `<a class="dropdown-item" href="#" data-id="`+ list[i].id + `" data-depth="`+ list[i].depth +`">` + list[i].name + `</a>`;
-            }
-            //depth가 0이나 1이면 1이나 2를 초기화하는 로직 필요 
-            //0이면 1,2      1이면 2
-            console.log("drawCateItem() depth : ", depth);
-            if(depth!=null){        //소분류 값이 바뀌면 depth가 null이 찍힘. 소분류는 부모가 아니기때문
-                for(let i=depth;i<=2;i++){
-                    $(dropdownMenuItem[i]).html("");
-                    $(dropdownToggleText[i]).text("select cate "+i);
-                }
-            }
-
-            $(dropdownMenuItem[depth]).html(tagStr);
-            //setDropDownItemOnClickEvent();    //이벤트 위임 개념으로 처리
-        }
-        //================================================================================
-        $(document).on('click', '.dropdown-item', function(event) {
-            //이벤트 위임: 이벤트 위임은 상위 요소(부모 요소)에 이벤트 리스너를 등록하고 
-            //그 이벤트가 발생했을 때 이벤트가 발생한 자식 요소를 확인하는 방법
-            //document 객체에 클릭 이벤트를 등록후, 클릭이 발생하면 
-            //jQuery는 이벤트가 발생한 요소가 .dropdown-item인지 확인하고 해당 요소에 대한 처리를 수행
-            //이벤트 리스너가 부모 요소에 등록되기 때문에 DOM에 나중에 추가된 .dropdown-item에도 이벤트가 적용
-            event.preventDefault();
-
-            var selectedCategory = $(this).text();
-            var selectedId = $(this).attr('data-id');
-            console.log("Selected Category: " + selectedCategory + "  Selected Id : " + selectedId);
-
-            $(this).parent().siblings('.dropdown-toggle').text(selectedCategory).attr('data-id', selectedId);
-            //$('.dropdown-item')의 부모의 형제의 클래스가 dropdown-toggle인것의 글자와 속성변경
-            getCategories(selectedId);
-        });
-        /*
-        function setDropDownItemOnClickEvent(){
-            $('.dropdown-item').on('click', function(event) {
-                event.preventDefault();
-
-                var selectedCategory = $(this).text();
-                var selectedId = $(this).attr('data-id');
-                console.log("Selected Category: " + selectedCategory + "  Selected Id : " + selectedId );
-
-                $(this).parent().siblings('.dropdown-toggle').text(selectedCategory).attr('data-id', selectedId);
-                //$('.dropdown-item')의 부모의 형제의 클래스가 dropdown-toggle인것의 글자와 속성변경
-                getCategories(selectedId);
-            });
-        }
-        */
         //================================================================================
         // Add Category Btn
         $('form').on('submit', function(event) {
