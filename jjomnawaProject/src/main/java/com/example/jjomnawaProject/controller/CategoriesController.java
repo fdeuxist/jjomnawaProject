@@ -162,6 +162,16 @@ public class CategoriesController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/c/{id}")
+    public ResponseEntity<Map<String, Object>> updateCategory(
+            @PathVariable Long id, @RequestBody Map<String, String> categoryData) {
+        String name = categoryData.get("name");
+        logger.info("\nCategoriesController - /updateCategory?id={}, name={}", id, name);
+        Map<String, Object> response = new HashMap<>();
+        categoriesService.modifyCategory(id, name);
+        response.put("msg", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 
 
