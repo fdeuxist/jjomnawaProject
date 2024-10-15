@@ -11,7 +11,7 @@ import java.util.List;
 public interface CategoriesRepository extends JpaRepository<Categories,Long> {
 
     // 모든 대분류 가져오기
-    @Query("SELECT c FROM Categories c WHERE c.p_id IS NULL")
+    @Query("SELECT c FROM Categories c WHERE c.p_id = 0")
     List<Categories> findAllMainCategories();
 
     // 특정 분류의 서브분류 가져오기 (대~중)/(중~소)
@@ -21,7 +21,7 @@ public interface CategoriesRepository extends JpaRepository<Categories,Long> {
     //메인 카테고리 추가
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO Categories (name, p_id, depth) VALUES (:name, NULL, 1)", nativeQuery = true)
+    @Query(value = "INSERT INTO Categories (name, p_id, depth) VALUES (:name, 0, 0)", nativeQuery = true)
     void addMainCategory(String name);
 
     //서브(중,소) 카테고리 추가
@@ -37,7 +37,7 @@ public interface CategoriesRepository extends JpaRepository<Categories,Long> {
     //대분류와 중분류만 가져오기 (서브카테고리 등록을 위한 소분류 제외 selectAll)
     @Modifying
     @Transactional
-    @Query(value = "SELECT * FROM categories WHERE depth NOT IN (3)", nativeQuery = true)
+    @Query(value = "SELECT * FROM categories WHERE depth NOT IN (2)", nativeQuery = true)
     List<Categories> selectAllMainAndMidCategories();
 
 
