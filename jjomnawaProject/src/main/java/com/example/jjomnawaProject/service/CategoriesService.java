@@ -5,6 +5,7 @@ import com.example.jjomnawaProject.reposiroty.CategoriesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,12 @@ public class CategoriesService {
     private static final Logger logger = LoggerFactory.getLogger(CategoriesService.class);
 
     public List<Categories> findAll() {
-        return categoriesRepository.findAll();
+        return categoriesRepository.findAll(Sort.by(Sort.Direction.ASC,"id"));
+    }   // JPA에서 findAll 메서드를 재정의하여 결과를 id 기준으로 오름차순으로 정렬하려면,
+        // JpaRepository의 메서드에 Sort 객체를 추가하거나, JPQL 쿼리를 사용할 수 있습니다.
+
+    public List<Categories> selectAllCategories(){
+        return categoriesRepository.selectAllCategories();
     }
 
     //메인 카테고리 추가
@@ -58,8 +64,9 @@ public class CategoriesService {
         }
 
         // 현재 카테고리 삭제
-        categoriesRepository.deleteById(categoryId);
-        logger.info("Deleted Category: " + categoryId);
+        Categories categoryToDelete = findCategoryById(categoryId);
+        categoriesRepository.deleteById(categoryId);    //삭제
+        logger.info("Deleted Category : " + categoryToDelete);
     }
 
     public Categories findCategoryById(Long categoryId) {

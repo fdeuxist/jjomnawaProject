@@ -5,10 +5,16 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CategoriesRepository extends JpaRepository<Categories,Long> {
+
+    // 모든 카테고리 id순서로 가져오기
+    @Query(value="SELECT id, name, p_id, depth FROM Categories ORDER BY id")
+    List<Categories> selectAllCategories();
 
     // 모든 대분류 가져오기
     @Query("SELECT c FROM Categories c WHERE c.p_id = 0")
