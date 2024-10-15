@@ -43,6 +43,9 @@
   </div>
 
   <script>
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //★  현재 카테고리 위치 세션에 넣어서 페이지 이동시에도 현위치 지키게 해줘야됨  ★
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
     $(document).ready(function() {
       /*
       const mainCateText = $('#MainCateText');  //$('#bcDt').text('');
@@ -107,6 +110,8 @@
         var selectedCategory = $(this).text();
         var selectedId = $(this).attr('data-id');
         console.log("Selected Category: " + selectedCategory + "  Selected Id : " + selectedId);
+
+        $("#insertProductCategoryId").val(selectedId); //ProductInsert.html에서 사용
 
         $(this).parent().siblings('.dropdown-toggle').text(selectedCategory).attr('data-id', selectedId);
         //$('.dropdown-item')의 부모의 형제의 클래스가 dropdown-toggle인것의 글자와 속성변경

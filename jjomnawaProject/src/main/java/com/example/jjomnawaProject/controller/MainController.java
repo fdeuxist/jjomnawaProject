@@ -14,12 +14,16 @@ import java.util.List;
 
 @Controller
 public class MainController {
-    //@Autowired
-    //private Users2Service users2Service;
+
     @Autowired
     private CategoriesService categoriesService;
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+
+    @GetMapping("/ProductInsert")
+    public String ProductInsert(Model model) {
+        return "ProductInsert";
+    }
 
     @GetMapping("/main")
     public String main(Model model){
