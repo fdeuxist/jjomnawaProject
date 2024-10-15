@@ -2,6 +2,8 @@ package com.example.jjomnawaProject.service;
 
 import com.example.jjomnawaProject.model.entity.Categories;
 import com.example.jjomnawaProject.reposiroty.CategoriesRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import java.util.List;
 public class CategoriesService {
     @Autowired
     private CategoriesRepository categoriesRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(CategoriesService.class);
 
     public List<Categories> findAll() {
         return categoriesRepository.findAll();
@@ -42,4 +46,23 @@ public class CategoriesService {
     public List<Categories> selectAllMainAndMidCategories(){
         return categoriesRepository.selectAllMainAndMidCategories();
     }
+
+
+    public void deleteCategory(Long categoryId) {
+        // 현재 카테고리 삭제
+        List<Categories> subCategories = categoriesRepository.findSubCategoriesByParentId(categoryId);
+
+        // 하위 카테고리 삭제
+        for (Categories subCategory : subCategories) {
+            deleteCategory(subCategory.getId());  // 재귀 호출
+        }
+
+        // 현재 카테고리 삭제
+        categoriesRepository.deleteById(categoryId);
+        logger.info("Deleted Category: " + categoryId);
+    }
+
+
+
+
 }

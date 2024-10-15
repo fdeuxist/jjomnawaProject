@@ -152,4 +152,22 @@ public class CategoriesController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     */
+
+    @DeleteMapping("/c/{id}")
+    public ResponseEntity<Map<String, Object>> deleteCategory(@PathVariable Long id) {
+        logger.info("\nCategoriesController - /deleteCategory?id={}",id);
+        Map<String, Object> response = new HashMap<>();
+        categoriesService.deleteCategory(id);
+        response.put("msg", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
 }

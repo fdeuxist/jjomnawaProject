@@ -41,4 +41,6 @@ public interface CategoriesRepository extends JpaRepository<Categories,Long> {
     List<Categories> selectAllMainAndMidCategories();
 
 
+
+
 }

@@ -41,6 +41,11 @@ public class MainController {
         logger.info("\nMainController - /CategoryManagement \n categoriesList : {} " + categoriesList);
         model.addAttribute("categoriesList", categoriesList);
 
+        //삭제용으로 findAll 해서 allCategoriesList 이름으로 넘겨야함
+        List<Categories> allCategoriesList = categoriesService.findAll();
+        logger.info("\nMainController - /CategoryManagement \n allCategoriesList : {} " + allCategoriesList);
+        model.addAttribute("allCategoriesList", allCategoriesList);
+
         return "CategoryManagement";
     }
 }
