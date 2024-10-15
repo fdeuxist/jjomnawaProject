@@ -53,7 +53,7 @@
         <button type="submit" class="btn btn-primary">Add Main Category</button>
     </form>
     -->
-    <h2 class="mt-5">Add Category</h2>
+    <h2 class="mt-5">Create Category</h2>
     <form action="#" th:action="@{/c/addCategory}" method="post">
         <input type="text" name="name" placeholder="Category Name" required class="form-control mb-3" />
         <!--
@@ -68,14 +68,14 @@
             </th:block>
         </select>
 
-        <button type="submit" class="btn btn-primary">Add Category</button>
+        <button type="submit" class="btn btn-primary">Create Category</button>
     </form>
 </div>
 <div class="container mt-5">
     <h2 class="mt-5">Delete Category</h2>
     <form id="deleteCategoryForm">
-        <label for="categoryId">Select Delete Category</label>
-        <select name="categoryId" id="categoryId" required class="form-control mb-3">
+        <label for="deleteCategoryId">Select Delete Category</label>
+        <select name="deleteCategoryId" id="deleteCategoryId" required class="form-control mb-3">
             <option value="" disabled selected>Select Delete Category</option>
             <th:block th:each="category : ${allCategoriesList}">
                 <option th:value="${category.id}" th:text="${category.name}"></option>
@@ -84,6 +84,22 @@
         <button type="button" class="btn btn-primary">Delete Category</button>
     </form>
 </div>
+
+<div class="container mt-5">
+    <h2 class="mt-5">Update Category</h2>
+    <form id="updateCategoryForm">
+        <input type="text" name="updateCategoryName" id="updateCategoryName" placeholder="Category Name" required class="form-control mb-3" />
+        <label for="updateCategoryId">Select Update Category</label>
+        <select name="updateCategoryId" id="updateCategoryId" required class="form-control mb-3">
+            <option value="" disabled selected>Select Update Category</option>
+            <th:block th:each="category : ${allCategoriesList}">
+                <option th:value="${category.id}" th:text="${category.name}"></option>
+            </th:block>
+        </select>
+        <button type="button" class="btn btn-primary">Update Category</button>
+    </form>
+</div>
+
 <!-- 푸터 포함 -->
 <div th:replace="fragments/footer :: footer"></div>
 
@@ -176,7 +192,7 @@
         // Add Category Btn
         $('form').on('submit', function(event) {
             event.preventDefault(); // 기본 제출 방지
-
+            console.log("$(this).serialize() : ", $(this).serialize());
             $.ajax({
                 url: $(this).attr('action'),
                 method: 'POST',
@@ -197,7 +213,7 @@
         $('#deleteCategoryForm button').on('click', function(event) {
             event.preventDefault();
 
-            const categoryId = $('#categoryId').val();
+            const categoryId = $('#deleteCategoryId').val();
             console.log("selected delete categoryId : " , categoryId);
             if (categoryId) {
                 $.ajax({
@@ -215,6 +231,34 @@
                 });
             } else {
                 //alert('지울 카테고리 선택');
+            }
+        });
+        //================================================================================
+        // Update Category Btn
+        $('#updateCategoryForm button').on('click', function(event) {
+            event.preventDefault();
+
+            const categoryId = $('#updateCategoryId').val();
+            const categoryName = $('#updateCategoryName').val();
+            console.log("selected update categoryName : " , categoryName);
+            if (categoryName) {
+                $.ajax({
+                    url: '/c/' + categoryId,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ name: categoryName }),
+                    success: function(response) {
+                        console.log(response.msg);
+                        if (response.msg === 'success') {
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        //alert('Error: ' + error);
+                    }
+                });
+            } else {
+                //alert('변경할 카테고리 선택');
             }
         });
         //================================================================================

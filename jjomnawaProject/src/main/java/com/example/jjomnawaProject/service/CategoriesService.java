@@ -49,7 +49,7 @@ public class CategoriesService {
 
 
     public void deleteCategory(Long categoryId) {
-        // 현재 카테고리 삭제
+        // 현재 카테고리의 하위 리스트
         List<Categories> subCategories = categoriesRepository.findSubCategoriesByParentId(categoryId);
 
         // 하위 카테고리 삭제
@@ -62,7 +62,14 @@ public class CategoriesService {
         logger.info("Deleted Category: " + categoryId);
     }
 
+    public Categories findCategoryById(Long categoryId) {
+        return categoriesRepository.findById(categoryId).orElse(null);
+    }
 
-
+    public void modifyCategory(Long categoryId, String name) {
+        Categories category = findCategoryById(categoryId);
+        category.setName(name);
+        categoriesRepository.save(category);
+    }
 
 }
