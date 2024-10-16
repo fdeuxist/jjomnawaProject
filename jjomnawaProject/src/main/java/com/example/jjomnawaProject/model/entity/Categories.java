@@ -5,6 +5,7 @@ import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -19,6 +20,7 @@ public class Categories {
     private Long p_id;
     private Long depth;
 
+    /*
     public String toString() {
         return "\nCategories{" +
                 "id=" + id +
@@ -26,6 +28,12 @@ public class Categories {
                 ", p_id=" + p_id +
                 ", depth=" + depth +
                 '}';
+    }*/
+
+    public Categories(String name, Long p_id, Long depth) {
+        this.name = name;
+        this.p_id = p_id;
+        this.depth = depth;
     }
 
     /*

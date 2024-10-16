@@ -66,7 +66,7 @@ public class CategoriesService {
         // 현재 카테고리 삭제
         Categories categoryToDelete = findCategoryById(categoryId);
         categoriesRepository.deleteById(categoryId);    //삭제
-        logger.info("Deleted Category : " + categoryToDelete);
+        logger.info("\ndeleteCategory()  Deleted Category : " + categoryToDelete);
     }
 
     public Categories findCategoryById(Long categoryId) {
