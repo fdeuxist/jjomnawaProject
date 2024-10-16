@@ -4,6 +4,7 @@ import com.example.jjomnawaProject.model.entity.Categories;
 import com.example.jjomnawaProject.reposiroty.CategoriesRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,13 @@ public class CategoriesService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Transactional
     public void dropTable() {
         entityManager.createNativeQuery("DROP TABLE Categories").executeUpdate();
     }
 
+
+    @Transactional
     public void createTable() {
         entityManager.createNativeQuery(
                 "CREATE TABLE Categories (" +
@@ -101,6 +105,7 @@ public class CategoriesService {
         categoriesRepository.save(category);
     }
 
+    @Transactional
     public void defaultCategoryInit(){
         dropTable();
         createTable();
