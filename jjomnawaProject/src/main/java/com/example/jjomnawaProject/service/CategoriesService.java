@@ -79,4 +79,60 @@ public class CategoriesService {
         categoriesRepository.save(category);
     }
 
+    public void defaultCategoryInit(){
+        Categories mainCategory0 = new Categories("대분류 1", 0L, 0L);
+        categoriesRepository.save(mainCategory0);
+
+        Categories subCategory00 = new Categories("대1의 중1", mainCategory0.getId(),1L);
+        categoriesRepository.save(subCategory00);
+        Categories subCategory01 = new Categories("대1의 중2", mainCategory0.getId(),1L);
+        categoriesRepository.save(subCategory01);
+        Categories subCategory02 = new Categories("대1의 중3", mainCategory0.getId(),1L);
+        categoriesRepository.save(subCategory02);
+
+        Categories subSubCategory000 = new Categories("대1중1의 소1",subCategory00.getId(),2L);
+        categoriesRepository.save(subSubCategory000);
+        Categories subSubCategory001 = new Categories("대1중1의 소2",subCategory00.getId(),2L);
+        categoriesRepository.save(subSubCategory001);
+        Categories subSubCategory002 = new Categories("대1중1의 소3",subCategory00.getId(),2L);
+        categoriesRepository.save(subSubCategory002);
+
+        Categories subSubCategory010 = new Categories("대1중2의 소1",subCategory01.getId(),2L);
+        categoriesRepository.save(subSubCategory010);
+        Categories subSubCategory011 = new Categories("대1중2의 소2",subCategory01.getId(),2L);
+        categoriesRepository.save(subSubCategory011);
+        Categories subSubCategory012 = new Categories("대1중2의 소3",subCategory01.getId(),2L);
+        categoriesRepository.save(subSubCategory012);
+
+        Categories subSubCategory020 = new Categories("대1중3의 소1",subCategory02.getId(),2L);
+        categoriesRepository.save(subSubCategory020);
+        Categories subSubCategory021 = new Categories("대1중3의 소2",subCategory02.getId(),2L);
+        categoriesRepository.save(subSubCategory021);
+        Categories subSubCategory022 = new Categories("대1중3의 소3",subCategory02.getId(),2L);
+        categoriesRepository.save(subSubCategory022);
+
+        Categories mainCategory1 = new Categories("대분류 2", 0L, 0L);
+        categoriesRepository.save(mainCategory1);
+
+        Categories subCategory10 = new Categories("대2의 중1", mainCategory1.getId(),1L);
+        categoriesRepository.save(subCategory10);
+        Categories subCategory11 = new Categories("대2의 중2", mainCategory1.getId(),1L);
+        categoriesRepository.save(subCategory11);
+        Categories subCategory12 = new Categories("대2의 중3", mainCategory1.getId(),1L);
+        categoriesRepository.save(subCategory12);
+
+        Categories subSubCategory100 = new Categories("대2중1의 소1",subCategory10.getId(),2L);
+        categoriesRepository.save(subSubCategory100);
+        Categories subSubCategory101 = new Categories("대2중1의 소2",subCategory10.getId(),2L);
+        categoriesRepository.save(subSubCategory101);
+        Categories subSubCategory102 = new Categories("대2중1의 소3",subCategory10.getId(),2L);
+        categoriesRepository.save(subSubCategory102);
+
+        Categories mainCategory2 = new Categories("대분류 3", 0L, 0L);
+        categoriesRepository.save(mainCategory2);
+
+    }
+
+
+
 }

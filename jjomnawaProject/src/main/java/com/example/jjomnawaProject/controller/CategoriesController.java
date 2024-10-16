@@ -23,6 +23,12 @@ public class CategoriesController {
 
     private static final Logger logger = LoggerFactory.getLogger(CategoriesController.class);
 
+    @GetMapping("/c/init")
+    public void init(){
+        logger.info("init");
+        categoriesService.defaultCategoryInit();
+    }
+
     @GetMapping("/test")
     public String test(){
         return "test!";
@@ -120,10 +126,12 @@ public class CategoriesController {
             depth = categoriesList.get(0).getDepth();
         }
         response.put("categoriesList", categoriesList);
-        logger.info("\nCategoriesController - categoriesList : {}",categoriesList , "depth : {} " ,depth);
-        response.put("depth",depth);
+        logger.info("\nCategoriesController - categoriesList : {}, depth : {}", categoriesList, depth);  //null 처리해야함
+
+        response.put("depth", depth);
         response.put("msg", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     /*

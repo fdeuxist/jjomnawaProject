@@ -1,20 +1,31 @@
 package com.example.jjomnawaProject.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@ToString
 @AllArgsConstructor
 @Entity
 @Table
 public class Product {
+    public Product() {}
+    public Product(String name, Long categoryId,
+                   String cCode, String iCode, String jCode,
+                   String cUrl, String iUrl, String jUrl) {
+        this.name = name;
+        this.categoryId = categoryId;
+        this.cCode = cCode;
+        this.iCode = iCode;
+        this.jCode = jCode;
+        this.cUrl = cUrl;
+        this.iUrl = iUrl;
+        this.jUrl = jUrl;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
@@ -45,24 +56,9 @@ public class Product {
     private String jUrl;
 
     // 가격 로그와의 관계
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PriceLog> priceLogs;
+    //@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //private List<PriceLog> priceLogs;
 
-    @Override
-    public String toString() {
-        return "\nProduct{" +
-                "productId=" + productId +
-                ", name='" + name + '\'' +
-                ", categoryId=" + categoryId +
-                ", cCode='" + cCode + '\'' +
-                ", iCode='" + iCode + '\'' +
-                ", jCode='" + jCode + '\'' +
-                ", cUrl='" + cUrl + '\'' +
-                ", iUrl='" + iUrl + '\'' +
-                ", jUrl='" + jUrl + '\'' +
-                ", priceLogs=" + priceLogs +
-                '}';
-    }
     /*
     drop table product;
     create table product (

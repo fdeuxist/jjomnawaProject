@@ -185,8 +185,9 @@ create table price_log (
 -- view 페이지 뭐뭐 필요한지 정리해야됨
 -- 시간값 db에서 처리하게 하는거 다시 봐야됨
 
-
-
+select * from categories order by id;
+select * from product;
+delete from product;
 
 
 

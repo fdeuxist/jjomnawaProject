@@ -61,7 +61,7 @@
       */
       const dropdownToggleText = $('.dropdown-toggle');   //3개
       const dropdownMenuItem = $('.dropdown-menu');   //3개
-
+      var selectedDepth;
       //대분류 가져와서 동적으로 넣어주기
       getCategories(0);   //p_id 0 = 대분류
 
@@ -85,19 +85,29 @@
         for(let i=0;i<list.length;i++){
           tagStr += `<a class="dropdown-item" href="#" data-id="`+ list[i].id + `" data-depth="`+ list[i].depth +`">` + list[i].name + `</a>`;
         }
-        //depth가 0이나 1이면 1이나 2를 초기화하는 로직 필요
-        //0이면 1,2      1이면 2
-        console.log("drawCateItem() depth : ", depth);
-        if(depth!=null){        //소분류 값이 바뀌면 depth가 null이 찍힘. 소분류는 부모가 아니기때문
-          for(let i=depth;i<=2;i++){
+
+        const dropdownClear = (depth) => { //중소분류 없는 경우 dropdown item 지워주는 함수
+          console.log("dropdownClear() : " , depth);
+          for(let i=depth; i<=2; i++){
             $(dropdownMenuItem[i]).html("");
             $(dropdownToggleText[i]).text("select cate "+i);
           }
         }
 
+        //depth가 0이나 1이면 1이나 2를 초기화하는 로직 필요
+        //0이면 1,2      1이면 2
+        console.log("drawCateItem() depth : ", depth);
+        if(depth!=null){        //소분류 값이 바뀌면 depth가 null이 찍힘. 소분류는 부모가 아니기때문
+          dropdownClear(depth);
+        }else if(depth==null){    //소분류가 없어도 depth가 null이 찍힘. 이때의 처리(소분류초기화)도 필요함
+          //console.log("null");//중분류가 없어도 null일텐데
+          dropdownClear(parseInt(selectedDepth)+1);
+        }
+
         $(dropdownMenuItem[depth]).html(tagStr);
         //setDropDownItemOnClickEvent();    //새로 그려진 요소들에 클릭이벤트 등록 필요, 이벤트 위임 개념으로 처리
       }
+      //================================================================================
       //================================================================================
       $(document).on('click', '.dropdown-item', function(event) {
         //이벤트 위임: 이벤트 위임은 상위 요소(부모 요소)에 이벤트 리스너를 등록하고
@@ -109,7 +119,8 @@
 
         var selectedCategory = $(this).text();
         var selectedId = $(this).attr('data-id');
-        console.log("Selected Category: " + selectedCategory + "  Selected Id : " + selectedId);
+        selectedDepth = $(this).attr('data-depth');
+        console.log("Selected Category: " + selectedCategory + "  Selected Id : " + selectedId + "  Selected Depth : " + selectedDepth);
 
         $("#insertProductCategoryId").val(selectedId); //ProductInsert.html에서 사용
 
