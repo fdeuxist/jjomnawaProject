@@ -42,6 +42,12 @@ public class MainController {
         return "ProductList";
     }
 
+    @GetMapping("/")
+    public String ProductList2(Model model, HttpSession session) {
+        session.setAttribute("title", "Jjomnawa Project");
+        return "ProductList";
+    }
+
     @GetMapping("/p/list")
     public String ProductList() {
         return "ProductList";

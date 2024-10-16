@@ -12,16 +12,17 @@ import java.util.List;
 @Repository
 public interface CategoriesRepository extends JpaRepository<Categories,Long> {
 
+
     // 모든 카테고리 id순서로 가져오기
-    @Query(value="SELECT id, name, p_id, depth FROM Categories ORDER BY id")
+    @Query(value = "SELECT c FROM Categories c ORDER BY c.id")
     List<Categories> selectAllCategories();
 
     // 모든 대분류 가져오기
-    @Query("SELECT c FROM Categories c WHERE c.p_id = 0")
+    @Query(value = "SELECT c FROM Categories c WHERE c.p_id = 0")
     List<Categories> findAllMainCategories();
 
     // 특정 분류의 서브분류 가져오기 (대~중)/(중~소)
-    @Query("SELECT c FROM Categories c WHERE c.p_id = :parentId")
+    @Query(value = "SELECT c FROM Categories c WHERE c.p_id = :parentId")
     List<Categories> findSubCategoriesByParentId(Long parentId);
 
     //메인 카테고리 추가

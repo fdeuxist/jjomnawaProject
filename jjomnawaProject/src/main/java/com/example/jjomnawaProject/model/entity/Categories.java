@@ -16,8 +16,11 @@ public class Categories {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String name;
+    @Column
     private Long p_id;
+    @Column
     private Long depth;
 
     /*
