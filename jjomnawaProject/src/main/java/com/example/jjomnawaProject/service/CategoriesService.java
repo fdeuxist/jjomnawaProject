@@ -24,13 +24,10 @@ public class CategoriesService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
     public void dropTable() {
         entityManager.createNativeQuery("DROP TABLE Categories").executeUpdate();
     }
 
-
-    @Transactional
     public void createTable() {
         entityManager.createNativeQuery(
                 "CREATE TABLE Categories (" +
