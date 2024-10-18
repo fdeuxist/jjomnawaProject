@@ -24,7 +24,8 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.seleniumhq.selenium:selenium-java:4.6.0'
+	//implementation 'org.seleniumhq.selenium:selenium-java:4.6.0'
+	implementation 'org.seleniumhq.selenium:selenium-java:4.19.1'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

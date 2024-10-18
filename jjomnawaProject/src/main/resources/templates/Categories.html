@@ -11,7 +11,7 @@
 <body>
 
 <!-- 헤더 포함 -->
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 <div class="container mt-5">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -72,7 +72,7 @@
 </div>
 
 <!-- 푸터 포함 -->
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <script>
     $(document).ready(function() {

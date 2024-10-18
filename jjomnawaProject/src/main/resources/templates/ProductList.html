@@ -10,7 +10,7 @@
 </head>
 <body>
 <!-- 헤더 포함 -->
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 
 
 <div class="container mt-5">
@@ -39,7 +39,7 @@
 
 
 <!-- 푸터 포함 -->
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 <script>
 $(document).ready(function() {
 

@@ -1,12 +1,10 @@
 package com.example.jjomnawaProject.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.GenerationTime;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -24,26 +22,21 @@ public class PriceLog {
     private Long productId;
 
     @Column(name = "price", nullable = false)
-    private Double price;
+    private Long price;
 
     @Column(name = "price_timestamp", nullable = false)
-    private Timestamp priceTimestamp;
+    private LocalDateTime priceTimestamp;
 
+    @PrePersist //엔티티가 데이터베이스에 처음 삽입되기 전에 호출됨
+    protected void setPriceTimestamp() {
+        priceTimestamp = LocalDateTime.now();
+    }
+
+    /*
     @ManyToOne
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private Product product;
-
-    @Override
-    public String toString() {
-        return "\nPriceLog{" +
-                "id=" + id +
-                ", productId=" + productId +
-                ", price=" + price +
-                ", priceTimestamp=" + priceTimestamp +
-                ", product=" + product +
-                '}';
-    }
-
+    */
     /*
     drop table price_log;
     create table price_log (
